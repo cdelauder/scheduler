@@ -5,7 +5,7 @@ class ApiController < ApplicationController
     puts 'here?'
   end
 
-  def timeslots
+  def new_timeslots
     new_timeslot = Timeslot.new(api_params)
     puts new_timeslot
     if new_timeslot.create
