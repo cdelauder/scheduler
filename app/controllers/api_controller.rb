@@ -3,9 +3,13 @@ class ApiController < ApplicationController
   def timeslots
     new_timeslot = Timeslot.new(api_params)
     if new_timeslot.create
-      status 200
+      respond_to do |format|
+        format.json { render json: new_timeslot }
+      end
     else
-      status 500
+      respond_to do |format|
+        format.json { render json:  {message: 'Resource not found'} }
+      end
     end
   end
 
