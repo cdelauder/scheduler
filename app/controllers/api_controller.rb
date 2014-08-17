@@ -10,7 +10,7 @@ class ApiController < ApplicationController
     new_timeslot = Timeslot.new(start_time: Time.at(timeslot_params[:start_time].to_i).to_datetime, 
       duration: timeslot_params[:duration])
     if new_timeslot.save
-      head :ok
+      render json: new_timeslot.to_json
     else
       head :bad_request
     end
@@ -20,7 +20,7 @@ class ApiController < ApplicationController
   def new_boats
     new_boat = Boat.new(boat_params)
     if new_boat.save
-      head :ok
+      render json: new_boat.to_json
     else
       head :bad_request
     end
@@ -34,7 +34,7 @@ class ApiController < ApplicationController
     new_assignment = Assignment.new(Boat.find(assignment_params[:boat_id]), 
                                     Timeslot.find(assignment_params[:timeslot_id]))
     if new_assignment.save
-      head :ok
+      render json: new_assignment.to_json
     else
       head :bad_request
     end
