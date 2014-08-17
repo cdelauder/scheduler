@@ -4,10 +4,10 @@ Rails.application.routes.draw do
     collection do
       post :timeslots, to: 'api#new_timeslots'  
       get :timeslots 
-      post :boat
-      # get :boats
-      # post :assignment
-      # post :booking
+      post :boats, to: 'api#new_boats'
+      get :boats
+      post :assignment
+      post :booking
     end
   end
 end
