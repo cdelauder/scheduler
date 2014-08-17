@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140815220056) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "assignments", force: true do |t|
     t.integer "boat_id"
     t.integer "timeslot_id"
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 20140815220056) do
     t.integer  "duration"
     t.integer  "customer_count"
     t.integer  "availability"
-    t.string   "boats"
+    t.string   "boats",          array: true
   end
 
 end
