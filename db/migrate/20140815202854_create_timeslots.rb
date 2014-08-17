@@ -3,9 +3,8 @@ class CreateTimeslots < ActiveRecord::Migration
     create_table :timeslots do |t|
       t.datetime :start_time
       t.integer :duration
-      t.integer :customer_count
-      t.integer :availability
-      t.string :boats, array: true
+      t.integer :availability, null: false, default: 0
+      t.integer :customer_count, null: false, default: 0
     end
   end
 end

@@ -6,8 +6,8 @@ Rails.application.routes.draw do
       get :timeslots 
       post :boats, to: 'api#new_boats'
       get :boats
-      post :assignment
-      post :booking
+      post :assignments, to: 'api#assignments'
+      post :bookings, to: 'api#bookings'
     end
   end
 end

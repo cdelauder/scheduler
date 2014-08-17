@@ -34,9 +34,8 @@ ActiveRecord::Schema.define(version: 20140815220056) do
   create_table "timeslots", force: true do |t|
     t.datetime "start_time"
     t.integer  "duration"
-    t.integer  "customer_count"
-    t.integer  "availability"
-    t.string   "boats",          array: true
+    t.integer  "availability",   default: 0, null: false
+    t.integer  "customer_count", default: 0, null: false
   end
 
 end

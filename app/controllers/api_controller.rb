@@ -30,9 +30,9 @@ class ApiController < ApplicationController
     render json: Boat.all.to_json
   end
 
-  def assignment
-    new_assignment = Assignment.new(Boat.find(assignment_params[:boat_id]), 
-                                    Timeslot.find(assignment_params[:timeslot_id]))
+  def assignments
+    new_assignment = Assignment.new(boat_id: Boat.find(assignment_params[:boat_id]), 
+                                    timeslot_id: Timeslot.find(assignment_params[:timeslot_id]))
     if new_assignment.save
       render json: new_assignment.to_json
     else
@@ -40,9 +40,14 @@ class ApiController < ApplicationController
     end
   end
 
-  def booking
-    #create booking if conditions are met
-    #return booking in JSON
+  def bookings
+    new_booking = Booking.new(timeslot_id: Timeslot.find(booking_params[:timeslot_id]),
+                              size: booking_params[:size])
+    if new_booking.save
+      render json new_booking.to_json
+    else
+      head :bad_request
+    end
   end
 
   private
@@ -61,4 +66,10 @@ class ApiController < ApplicationController
   def assignment_params
     params.fetch(:assignment, {}).permit(:timeslot_id, :boat_id)
   end
+
+  def booking_params
+    params.fetch(:booking, {}).permit(:timeslot_id, :size)
+  end
+
+
 end
