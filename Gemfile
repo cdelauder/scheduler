@@ -39,5 +39,9 @@ gem 'rails-api'
 # gem 'capistrano-rails', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
+
+gem 'rspec-rails', group: [:test]
+gem 'shoulda-matchers', group: [:test]
+gem 'database_cleaner', group: [:test]
 
