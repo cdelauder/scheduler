@@ -9,10 +9,10 @@ class Booking < ActiveRecord::Base
   end
 
   def determine_availability(booking)
-    if (booking.timeslot.availability - booking.size) > (booking.timeslot.boats.maximum(:capacity) - booking.size)
+    if (booking.timeslot.availability - booking.size) > (booking.timeslot.boats.minimum(:capacity))
       booking.timeslot.availability - booking.size
     else
-      booking.timeslot.boats.maximum(:capacity) - booking.size
+      booking.timeslot.boats.minimum(:capacity) 
     end
   end
 
