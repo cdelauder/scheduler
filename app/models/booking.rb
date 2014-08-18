@@ -35,20 +35,11 @@ class Booking < ActiveRecord::Base
   def check_for_overlapping_timeslot
     overlaps = Timeslot.where({start_time: (self.timeslot.start_time.at_beginning_of_day..self.timeslot.start_time.at_end_of_day)}).where.not(id: self.timeslot.id)
     overlaps.each do |overlap| 
-      if overlap.boats == self.timeslot.boats
+      if overlap.boats == self.timeslot.boats && overlap.boats.length < 2
         overlap.update_attributes(availability: 0)
+      else
+        overlap.update_attributes(availability: overlap.boats.miniumum(:capacity))
       end
     end
-    # figure out which boat id is the one whose availability has been altered by the booking
-    # if they have overlapping timeslots and the same boat id
-    # reduce the other timeslots availability by the boat capacity.
-    # overlaps.each do |overlap|
-    #   if boat.id = self.timeslot.boats.order(:capacity).last.id && self.id != overlap.id
-    #     end_time = self.timeslot.start_time + (self.timeslot.duration * 60)
-    #     if self.timeslot.start_time < overlap.start_time && end_time > overlap.start_time
-    #       overlap.update_attributes(availability: 0)
-    #     end
-    #   end
-    # end
   end
 end
