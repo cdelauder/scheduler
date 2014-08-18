@@ -10,7 +10,7 @@ class ApiController < ApplicationController
     new_timeslot = Timeslot.new(start_time: Time.at(timeslot_params[:start_time].to_i).to_datetime, 
       duration: timeslot_params[:duration])
     if new_timeslot.save
-      render json: new_timeslot.to_json
+      render json: new_timeslot.to_json(include: [:boats])
     else
       head :bad_request
     end
