@@ -31,8 +31,8 @@ class ApiController < ApplicationController
   end
 
   def assignments
-    new_assignment = Assignment.new(boat_id: Boat.find(assignment_params[:boat_id]), 
-                                    timeslot_id: Timeslot.find(assignment_params[:timeslot_id]))
+    new_assignment = Assignment.new(boat_id: Boat.find(assignment_params[:boat_id]).id, 
+                                    timeslot_id: Timeslot.find(assignment_params[:timeslot_id]).id)
     if new_assignment.save
       render json: new_assignment.to_json
     else
@@ -41,10 +41,10 @@ class ApiController < ApplicationController
   end
 
   def bookings
-    new_booking = Booking.new(timeslot_id: Timeslot.find(booking_params[:timeslot_id]),
+    new_booking = Booking.new(timeslot_id: Timeslot.find(booking_params[:timeslot_id]).id,
                               size: booking_params[:size])
     if new_booking.save
-      render json new_booking.to_json
+      render json: new_booking.to_json
     else
       head :bad_request
     end
