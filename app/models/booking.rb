@@ -44,11 +44,34 @@ class Booking < ActiveRecord::Base
     # check to see if the timeslots actually overlap
     overlaps = Timeslot.where({start_time: (self.timeslot.start_time.at_beginning_of_day..self.timeslot.start_time.at_end_of_day)}).where.not(id: self.timeslot.id)
     overlaps.each do |overlap| 
-      if overlap.boats == self.timeslot.boats && overlap.boats.length < 2
-        overlap.update_attributes(availability: 0)
-      else
-        overlap.update_attributes(availability: overlap.boats.miniumum(:capacity))
+      if verify_time_overlap(overlap, self.timeslot)
+        change_overlap_availability(overlap, self)
       end
+    end
+  end
+
+  def verify_time_overlap(overlap, original_timeslot)
+    end_time = original_timeslot.start_time + (original_timeslot.duration * 60)
+    overlap_end_time = overlap.start_time + (overlap.duration * 60)
+    # true if the start time is within the timeslot range
+    if overlap.start_time >= original_timeslot.start_time && overlap.start_time < end_time
+      true
+    # true if the end time is within the timeslot range
+    elsif original_timeslot.start_time <= overlap_end_time && overlap_end_time < end_time
+      true
+    else
+    # default false
+      false
+    end
+  end
+
+  def change_overlap_availability(overlap, booking_timeslot)
+    if overlap.boats == booking_timeslot.timeslot.boats && overlap.boats.length < 2
+      puts "availability 0********************"
+      overlap.update_attributes(availability: 0)
+    else
+      puts "availability sceond boat******************"
+      overlap.update_attributes(availability: overlap.boats.miniumum(:capacity))
     end
   end
 end
